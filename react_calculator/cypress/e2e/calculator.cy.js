@@ -17,7 +17,6 @@ describe("Calculator", () => {
     cy.get('.display').should('have.html', '6');
   });
 
-
   it('should be able to add', () => {
     cy.get('#number8').click();
     cy.get('#operator_add').click();
@@ -100,6 +99,15 @@ describe("Calculator", () => {
     cy.get('#operator-equals').click();
     cy.get('#running-total').should('have.html', '2000000000')
   })
+
+  it('should return error message when trying to divide number by 0', () => {
+    cy.get('#number8').click();
+    cy.get('#operator-divide').click();
+    cy.get('#number0').click();
+    cy.get('#operator-equals').click();
+    cy.get('#running-total').should('have.html', 'error')
+  })
+
 })
 
 
@@ -112,5 +120,5 @@ describe("Calculator", () => {
 // 1. Do the number buttons update the display of the running total?
 // 2. Do the arithmetical operations update the display with the result of the operation?
 // 3. Can multiple operations be chained together?
-// 4. Is the output as expected for a range of numbers (for example, positive, negative, decimals and very large numbers)? 
+// 4. Is the output as expected for a range of numbers (for example, positive, negative, decimals and very large numbers)?
 // 5. What does the code do in exceptional circumstances? Specifically, if you divide by zero, what is the effect? Write a test to describe what you'd prefer to happen, and then correct the code to make that test pass (you will need to modify the Calculator model to meet this requirement).

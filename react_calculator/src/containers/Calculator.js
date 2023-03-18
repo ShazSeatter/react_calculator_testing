@@ -9,6 +9,7 @@ function App() {
   const [previousOperator, setPreviousOperator] = useState(null); 
   const [newTotal, setNewTotal] = useState(true);
   const [calculatedTotal, setCalculatedTotal] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const numberClick =  (number) => {
 
@@ -40,9 +41,9 @@ function App() {
     setRunningTotal(0);
   }
 
-  const operatorClick = (operator) => {
     // if there was a previous operator recorded as having been clicked, perform
       // the operation for the previous operator
+      const operatorClick = (operator) => {
       if (previousTotal && previousOperator) {
         switch (previousOperator) {
           case "+":
@@ -92,13 +93,15 @@ function App() {
     setCalculatedTotal(calculatedNumber);
   }
 
+
   const divide = (number) => {
     let calculatedNumber = parseFloat(previousTotal) / parseFloat(number);
-    if (number === 0) {
-      setRunningTotal(calculatedNumber)
+    
+    if (calculatedNumber === Infinity || calculatedNumber === -Infinity) {
+      setRunningTotal('error')
     } else {
-    setRunningTotal(calculatedNumber);
-    setCalculatedTotal(calculatedNumber);
+      setRunningTotal(calculatedNumber);
+      setCalculatedTotal(calculatedNumber);
     }
   }
 
@@ -106,7 +109,7 @@ function App() {
   return (
     <div className="container">
     <div className="calculator">
-      <div data-testid="running-total" id="running-total" className="display">{ runningTotal }</div>
+      <div data-testid="running-total" id="running-total" className="display">{runningTotal}</div>
       <KeyPad 
       handleNumber={numberClick} 
       handleOperator={operatorClick} 
